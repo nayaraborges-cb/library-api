@@ -1,26 +1,27 @@
 import { Module } from '@nestjs/common';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { Book } from 'src/books/entities/book.entity';
-import { User } from 'src/users/entities/user.entity';
-import { DataSourceOptions } from 'typeorm';
-export const dataSourceOptions: DataSourceOptions = {
-    type: "postgres",
-    host: "localhost",
-    port: 5433,
-    username: "postgres",
-    password: "docker",
-    database: "devtrining",
-    entities: [Book, User],
-    synchronize: true, 
-} 
+import { SequelizeModule } from '@nestjs/sequelize';
+import { ConfigModule } from '@nestjs/config';
+import { User } from 'src/users/models/user.model';
+import { Book } from 'src/books/models/book.model';
 
 @Module({
-    imports: [TypeOrmModule.forRootAsync({
-        useFactory: async () => {
-            return {
-                ...dataSourceOptions,
-            }
-        }
-    })],
+  imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
+
+    SequelizeModule.forRoot({
+      dialect: 'postgres',
+      host: process.env.DB_HOST,
+      port: Number(process.env.DB_PORT),
+      username: process.env.DB_USER,
+      password: process.env.DB_PASS,
+      database: process.env.DB_NAME,
+      models: [User, Book],
+      autoLoadModels: true,
+      synchronize: false,
+      logging: false,
+    }),
+  ],
 })
-export class DatabaseModule {} 
+export class DatabaseModule {}
