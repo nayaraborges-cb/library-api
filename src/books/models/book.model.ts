@@ -1,15 +1,24 @@
 import { Table, Column, Model, DataType } from 'sequelize-typescript';
 
+export interface BookAttributes {
+    id: number;
+    title: string;
+    author: string;
+    genre: string;
+    publication: number;
+    resume: string;
+}
+
 @Table({
   tableName: 'books',
 })
-export class Book extends Model<Book> {
+export class Book extends Model<BookAttributes> implements BookAttributes {
   @Column({
-    type: DataType.UUID,
+    type: DataType.INTEGER,
     primaryKey: true,
-    defaultValue: DataType.UUIDV4,
+    autoIncrement: true,
   })
-  declare id: string;
+  declare id: number;
 
   @Column({
     type: DataType.STRING,
@@ -25,7 +34,7 @@ export class Book extends Model<Book> {
 
   @Column({
     type: DataType.STRING,
-    allowNull: false,
+    allowNull: false, 
   })
   declare genre: string;
 
@@ -40,4 +49,11 @@ export class Book extends Model<Book> {
     allowNull: true,
   })
   declare resume: string;
+
+  @Column({
+    type: DataType.STRING,
+    allowNull: true,
+  })
+  declare coverUrl: string;
+
 }
