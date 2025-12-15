@@ -11,6 +11,7 @@ import { BooksModule } from './books/books.module';
 import { DatabaseModule } from './database/database.module';
 import { AuthModule } from './auth/auth.module';
 import { ThrottlerStorageRedisService } from '@nest-lab/throttler-storage-redis';
+import { SequelizeModule } from '@nestjs/sequelize';
 
 @Module({
   imports: [
@@ -50,6 +51,14 @@ import { ThrottlerStorageRedisService } from '@nest-lab/throttler-storage-redis'
     BooksModule,
     DatabaseModule,
     AuthModule,
+
+    SequelizeModule.forRoot({
+    dialect: 'postgres',
+    host: process.env.DB_HOST,
+    
+    synchronize: true, 
+  }),
+
   ],
   controllers: [AppController],
   providers: [

@@ -31,11 +31,11 @@ export class UsersController {
     }
 
     const avatarUrl = await this.storageService.uploadFile(file, 'avatars'); 
-    const user: User = await this.usersService.updateAvatarUrl(id, avatarUrl); 
+    const user: User = await this.usersService.updateavatarKey(id, avatarUrl); 
 
     return {
       message: 'Avatar atualizado com sucesso!',
-      avatarUrl: user.avatarUrl,
+      avatarKey: user.avatarKey,
     };
   }
 

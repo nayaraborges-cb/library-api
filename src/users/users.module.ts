@@ -3,6 +3,8 @@ import { UsersService } from './users.service'
 import { UsersController } from './users.controller'
 import { MulterModule } from '@nestjs/platform-express'
 import { StorageModule } from 'src/storage/storage.module';
+import { SequelizeModule } from '@nestjs/sequelize';
+import { User } from './models/user.model';
 
 @Module({
   controllers: [UsersController],
@@ -13,6 +15,7 @@ import { StorageModule } from 'src/storage/storage.module';
       MulterModule.register({
         dest:'/uploads',
       }),
+      SequelizeModule.forFeature([User]),
     
     ],
 })

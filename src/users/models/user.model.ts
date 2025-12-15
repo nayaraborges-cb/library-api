@@ -1,20 +1,19 @@
-import { Table, Column, Model, DataType, AllowNull } from 'sequelize-typescript';
-
+import { Table, Column, Model, DataType } from 'sequelize-typescript';
+import { Optional } from 'sequelize';
 
 export interface UserAttributes {
-  avatarUrl: string;
   id: number;
   name: string;
   email: string;
   password: string;
-  role: string;
+  role: string; //** */
+  avatarKey: string  | null;
 }
 
 @Table({
   tableName: 'users',
 })
-export class User extends Model<UserAttributes> implements UserAttributes {
-  avatarUrl: string;
+export class User extends Model<UserAttributes, UserCreationAttributes> {
   @Column({
     type: DataType.INTEGER,
     primaryKey: true,
@@ -44,14 +43,17 @@ export class User extends Model<UserAttributes> implements UserAttributes {
  @Column({
   type: DataType.STRING,
   allowNull: true,
+  defaultValue: null,
  })
-  declare avatarKey: string;
+  declare avatarKey: string | null;
   
   @Column({
-    type: DataType.ARRAY(DataType.STRING),
+    type: DataType.STRING,
     allowNull: false,
-    defaultValue: [],
+    defaultValue: 'user',
   })
-  declare role: string;
+  declare role: string; 
 
 }
+
+export interface UserCreationAttributes extends Optional<UserAttributes, 'id' | 'avatarKey'> {}

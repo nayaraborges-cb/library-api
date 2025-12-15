@@ -5,6 +5,7 @@ import { UsersService } from 'src/users/users.service';
 import { AuthResponseDto } from './auth.dto';
 import { ConfigService } from '@nestjs/config';
 import { UserAttributes } from 'src/users/models/user.model';
+import { User } from 'src/users/models/user.model';
 
 @Injectable()
 export class AuthService {
@@ -20,7 +21,7 @@ export class AuthService {
     }
 
    async signIn(username: string, password: string): Promise<AuthResponseDto>{
-        const foundUser: UserAttributes | undefined = await this.usersServices.findByUserName(username);
+        const foundUser: User | null = await this.usersServices.findByUserName(username);
 
         this.logger.log(`[LOGIN DEBUG] Tentativa para: ${username}. Usuário encontrado: ${!!foundUser}`);
 
