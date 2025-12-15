@@ -6,7 +6,7 @@ export interface UserAttributes {
   name: string;
   email: string;
   password: string;
-  role: string; //** */
+  role: string; 
   avatarKey: string  | null;
 }
 
